@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>E-Commerce Portal (Mini Flipkart/Amazon Clone)</title>
+
+<style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background:#f4f4f4; }
+    header { background: #0077ff; color: white; padding: 15px; font-size: 24px; text-align: center; }
+    nav { background: #222; padding: 10px; text-align: center; }
+    nav a {
+        color: white; padding: 10px 20px; text-decoration: none; margin: 5px;
+        display: inline-block; font-size: 18px; border-radius: 4px;
+    }
+    nav a:hover { background: #0077ff; }
+
+    section { padding: 20px; display: none; }
+    .active { display: block; }
+
+    .container { width: 340px; background: white; margin: auto; padding: 18px;
+        border-radius: 8px; box-shadow: 0 0 6px rgba(0,0,0,0.2); }
+
+    input, button {
+        width: 100%; padding: 10px; margin-top: 10px; font-size: 16px;
+    }
+
+    button { background:#0077ff; color:white; border:none; cursor:pointer; }
+    button:hover { background:#005fcc; }
+
+    .item-box {
+        background: white; padding: 15px; margin: 10px; display: inline-block;
+        border-radius: 6px; width: 160px; text-align:center;
+        box-shadow: 0 0 4px rgba(0,0,0,0.2);
+    }
+    footer { background:#0077ff; padding:8px; color:white; text-align:center; margin-top:20px; }
+</style>
+</head>
+
+<body>
+
+<header>🛒 ShopEasy — E-Commerce Portal</header>
+
+<nav>
+    <a onclick="show('home')">Home</a>
+    <a onclick="show('products')">Products</a>
+    <a onclick="show('orders')">Orders</a>
+    <a onclick="show('wishlist')">Wishlist</a>
+    <a onclick="show('login')">Login</a>
+    <a onclick="show('register')">Register</a>
+    <a onclick="show('contact')">Contact Us</a>
+    <a onclick="show('about')">About</a>
+</nav>
+
+<!-- HOME -->
+<section id="home" class="active">
+    <h2>Welcome to ShopEasy!</h2>
+    <p>Your mini E-Commerce portal like Flipkart / Amazon.</p>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+    <h2>Products</h2>
+    <div class="item-box">
+        Laptop <br><button onclick="addToWishlist('Laptop')">Wishlist</button>
+    </div>
+    <div class="item-box">
+        Smartphone <br><button onclick="addToWishlist('Smartphone')">Wishlist</button>
+    </div>
+    <div class="item-box">
+        Headphones <br><button onclick="addToWishlist('Headphones')">Wishlist</button>
+    </div>
+</section>
+
+<!-- ORDERS -->
+<section id="orders">
+    <h2>Orders List</h2>
+    <p>No recent orders found.</p>
+</section>
+
+<!-- WISHLIST -->
+<section id="wishlist">
+    <h2>Your Wishlist</h2>
+    <ul id="wishlistItems"></ul>
+</section>
+
+<!-- LOGIN -->
+<section id="login">
+    <div class="container">
+        <h2>Login</h2>
+        <input type="email" id="loginEmail" placeholder="Enter Email" required>
+        <input type="password" id="loginPass" placeholder="Enter Password" required>
+        <button onclick="login()">Login</button>
+        <p id="loginMsg"></p>
+    </div>
+</section>
+
+<!-- REGISTER -->
+<section id="register">
+    <div class="container">
+        <h2>Register</h2>
+        <input type="text" id="regName" placeholder="Full Name" required>
+        <input type="email" id="regEmail" placeholder="Email" required>
+        <input type="password" id="regPass" placeholder="Password (min 6 chars)" required>
+        <button onclick="register()">Register</button>
+        <p id="regMsg"></p>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+    <h2>Customer Care</h2>
+    <p>Email: support@shopeasy.com</p>
+    <p>Phone: +91 9876543210</p>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+    <h2>About Us</h2>
+    <p>We deliver happiness at your doorstep 😄</p>
+</section>
+
+<footer>© 2025 ShopEasy — Mini E-Commerce Portal Project</footer>
+
+<script>
+function show(id) {
+    document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+}
+
+// ✅ Registration validation
+function register() {
+    let name = document.getElementById("regName").value;
+    let email = document.getElementById("regEmail").value;
+    let pass = document.getElementById("regPass").value;
+    let msg = document.getElementById("regMsg");
+
+    if (name === "" || email === "" || pass === "")
+        return msg.textContent = "All fields are required.";
+    if (!email.includes("@"))
+        return msg.textContent = "Invalid email address.";
+    if (pass.length < 6)
+        return msg.textContent = "Password must be at least 6 characters.";
+
+    localStorage.setItem("userEmail", email);
+    localStorage.setItem("userPass", pass);
+    msg.textContent = "Registration Successful ✅";
+}
+
+// ✅ Login validation
+function login() {
+    let email = document.getElementById("loginEmail").value;
+    let pass = document.getElementById("loginPass").value;
+    let msg = document.getElementById("loginMsg");
+
+    if (email === localStorage.getItem("userEmail") &&
+        pass === localStorage.getItem("userPass"))
+        msg.textContent = "Login Successful ✅";
+    else
+        msg.textContent = "Invalid credentials ❌";
+}
+
+// ✅ Wishlist
+function addToWishlist(item) {
+    let list = document.getElementById("wishlistItems");
+    let li = document.createElement("li");
+    li.textContent = item;
+    list.appendChild(li);
+}
+</script>
+
+</body>
+</html>
